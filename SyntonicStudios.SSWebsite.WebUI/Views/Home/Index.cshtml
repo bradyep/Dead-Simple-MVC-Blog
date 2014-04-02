@@ -1,0 +1,32 @@
+﻿@*@model IEnumerable<SyntonicStudios.SSWebsite.Domain.Entities.BlogPost>*@
+@model SyntonicStudios.SSWebsite.WebUI.Models.BlogPostsViewModel
+
+@{
+    ViewBag.Title = "Syntonic Studios: Home Page of Brady Prigge";
+}
+
+          <div id="blogPostSection">
+@foreach (var p in Model.BlogPosts)
+{
+          <div class="row-fluid">
+            <div class="span12">
+              <h2>@p.Subject</h2>
+              <p class="muted"><small>Posted: @p.DatePosted.ToString("yyyy MMMM dd")</small></p>
+              <p>@Html.Raw(p.Teaser)</p>
+              @if (!p.Body.IsEmpty())
+              {
+              <p>
+                  @Html.ActionLink("Read More", "ViewBlog", new {id = p.UrlDisplay})
+              </p>
+              }
+            </div><!--/span-->
+          </div><!--/row-->
+}
+          <!-- Paging Mechanism -->
+            <ul class="pager">
+              @if (Model.PagingInfo.TotalItems > Model.PagingInfo.CurrentPage * Model.PagingInfo.ItemsPerPage) 
+              { <li><a href="@Url.Action("Index", "Home", new { page = Model.PagingInfo.CurrentPage + 1 })">Older</a></li> }
+              @if (Model.PagingInfo.CurrentPage > 1) 
+              { <li><a href="@Url.Action("Index", "Home", new { page = Model.PagingInfo.CurrentPage - 1 })">Newer</a></li> }
+            </ul>
+          </div> <!-- blogPostSection -->

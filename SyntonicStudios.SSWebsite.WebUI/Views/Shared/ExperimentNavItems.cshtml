@@ -1,0 +1,13 @@
+﻿@model SyntonicStudios.SSWebsite.WebUI.Models.ExperimentNavItemModel
+
+@foreach (var link in Model.Experiments)
+{
+    if (Request.Url.PathAndQuery.Contains(link.UrlDisplay))
+    {
+        <li class="active"><a href="@Url.Action("ViewExperiment", "Home", new { id = link.UrlDisplay })">@link.DisplayName</a></li>
+    }
+    else
+    {
+        <li><a href="@Url.Action("ViewExperiment", "Home", new { id = link.UrlDisplay })">@link.DisplayName</a></li>
+    }
+}

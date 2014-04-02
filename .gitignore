@@ -1,0 +1,6 @@
+bin/
+*.dll
+*.pdb
+obj/
+SyntonicStudios.SSWebsite.WebUI/ConfigurationFiles/Arvixe/
+SyntonicStudios.SSWebsite.WebUI/Web.config

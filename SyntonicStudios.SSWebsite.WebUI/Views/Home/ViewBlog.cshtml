@@ -1,0 +1,16 @@
+﻿@model SyntonicStudios.SSWebsite.Domain.Entities.BlogPost
+
+@{
+    ViewBag.Title = @Model.UrlDisplay;
+}
+
+<h2>@Model.Subject</h2>
+<p class="muted"><small>Posted: @Model.DatePosted.ToString("yyyy MMMM dd")</small></p>
+
+<div>
+    @Html.Raw(Model.Body)
+</div>
+
+<p class="text-center page-end-nav">
+    <a class="btn" href="@Url.Action("Index")"><i class="icon-step-backward"></i> Return Home</a>
+</p>

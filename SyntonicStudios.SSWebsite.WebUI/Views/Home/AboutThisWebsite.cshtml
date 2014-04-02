@@ -1,0 +1,229 @@
+﻿@{
+    ViewBag.Title = "About This Website";
+}
+
+<div>
+    <h2>About This Website</h2>
+
+    <p>
+        This website was built with Asp.net MVC 4. It is running on a data-driven blogging engine that I wrote myself (this entire website is a MVC 4 project that I started with the "Empty" template in Visual Studio 2012). My plans for it are to make some tweaks to it and release it as a free, open source blogging engine. You can already download the entire source code for this site below - you would have to set up some database tables and make some changes to the web.config file to get it up and running, but I have included the solution file so looking at the code and how it is organized should be fairly easy. If you want a cursory glance of some of the code as well as the technology used in this site just keep reading below.
+    </p>
+
+    <div>
+        <a href="~/Content/source/sswebsite/SyntonicStudiosWebsite3.zip" class="btn btn-large btn-primary">Download Website Source</a>
+    </div>
+
+    <h3>The Model</h3>
+
+    <p>Even non-MVC web applications need a good data model to build on top of. For this blog engine I used Microsoft's Entity Framework, which is an Object Relational mapper that, among other things, can automatically generate database tables based on the objects you have in your data classes. Here's the code for the class that makes up a Blog Posting:</p>
+
+    <pre class="prettyprint">
+    public class BlogPost
+    {
+        public int BlogPostID { get; set; }
+
+        public int? CategoryID { get; set; }
+
+        [Required(ErrorMessage = "Please enter a subject")]
+        public string Subject { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [AllowHtml]
+        public string Body { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")] // This works for EditorFor but not TextBoxFor
+        [Required(ErrorMessage = "Please enter teaster text")]
+        [AllowHtml]
+        public string Teaser { get; set; } // This is the text that will show up on the front page
+
+        [DataType(DataType.Date)]
+        [Required(ErrorMessage = "Please enter a posted date")]
+        public DateTime DatePosted { get; set; }
+
+        public int? PostedBy { get; set; }
+
+        [Required(ErrorMessage = "Please enter a Url display")]
+        public string UrlDisplay { get; set; }
+    }
+    </pre>
+
+    <p>And yes, there are quite a few attributes. But those attributes allow us to check for bad data at the model level which is where ALL such checks should be made.</p>
+
+    <h3>Using a dependency injection container</h3>
+
+    <p>You might think a blogging engine is too small a project to worry about hard-coded dependencies and unit testing - that may be the case but since I wanted to quickly get this website up and running with Entity Framework AND be able to quickly and easily swap out different kinds of data providers when I make this an open source project, I elected to use ninject as a dependency injector. I first declared a general interface that defines all the things a good data repository would want to do: </p>
+
+    <pre class="prettyprint">
+namespace SyntonicStudios.SSWebsite.Domain.Abstract
+{
+    public interface IBlogPostRepository
+    {
+        IQueryable&lt;BlogPost&gt; BlogPosts { get; }
+        void SaveBlogPost(BlogPost blogPost);
+        BlogPost DeleteBlogPost(int blogPostID);
+    }
+}
+    </pre>
+
+    <p>And then defined an entity framework class that implements the interface: </p>
+
+    <pre class="prettyprint">
+namespace SyntonicStudios.SSWebsite.Domain.Concrete
+{
+    public class EFBlogPostRepository : IBlogPostRepository
+    {
+        private EFDbContext context = new EFDbContext();
+
+        public IQueryable&lt;BlogPost&gt; BlogPosts
+        {
+            get { return context.BlogPosts; }
+        }
+
+        public void SaveBlogPost(BlogPost blogPost)
+        {
+            if (blogPost.BlogPostID == 0)
+            {
+                context.BlogPosts.Add(blogPost);
+            }
+            else
+            {
+                BlogPost dbEntry = context.BlogPosts.Find(blogPost.BlogPostID);
+                if (dbEntry != null)
+                {
+                    dbEntry.CategoryID = blogPost.CategoryID;
+                    dbEntry.Subject = blogPost.Subject;
+                    dbEntry.Body = blogPost.Body;
+                    dbEntry.Teaser = blogPost.Teaser;
+                    dbEntry.DatePosted = blogPost.DatePosted;
+                    dbEntry.PostedBy = blogPost.PostedBy;
+                    dbEntry.UrlDisplay = blogPost.UrlDisplay;
+                }
+            }
+            context.SaveChanges();
+        }
+
+        public BlogPost DeleteBlogPost(int blogPostID)
+        {
+            BlogPost dbEntry = context.BlogPosts.Find(blogPostID);
+            if (dbEntry != null)
+            {
+                context.BlogPosts.Remove(dbEntry);
+                context.SaveChanges();
+            }
+            return dbEntry;
+        }
+
+    }
+}
+    </pre>
+
+    <p>With ninject set as the controller factory in the global.asax file, we simply create a NinjectControllerFactory class that has a method that binds the general interface to the Entity Framework class: </p>
+
+    <pre class="prettyprint">
+    public class NinjectControllerFactory : DefaultControllerFactory
+    {
+        private void AddBindings()
+        {
+            ninjectKernel.Bind&lt;IBlogPostRepository&gt;().To&lt;EFBlogPostRepository&gt;();
+            ninjectKernel.Bind&lt;IAuthProvider&gt;().To&lt;FormsAuthProvider&gt;();
+        }
+
+    }
+    </pre>
+
+    <p>We now can easily swap out any kind of data provider we want; an old-school data access layer, Entity Framework, nhibernate, xml, plaintext - as long as it implements the interface it will work! As you can see in the bindings above I did the same thing with the authentication of my site as well. I'm using FormsAuthentication to get things up and running but am looking into using the Membership class in the future. When that time comes I can simply write a new class and change the ninject bindings! Program to an interface, not an implementation.</p>
+
+    <h3>Blog Paging</h3>
+
+    <p>One thing that often comes up when presenting data in a web application is pagination. In the past developers would include paging code in their view, which breaks the seperation of concerns. In the MVC model we have a controller that acts as a go-between for the data model and views we serve up to the user - so let's make use of it!</p>
+
+    <pre class="prettyprint">
+        public ActionResult Index(int page = 1)
+        {
+            BlogPostsViewModel model = new BlogPostsViewModel
+            {
+                BlogPosts = repository.BlogPosts.OrderByDescending(b => b.DatePosted).Skip((page - 1) * PageSize).Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    TotalItems = repository.BlogPosts.Count()
+                }
+            };
+            ViewBag.Message = "Syntonic Studios Blog";
+
+            // return View();
+            // return View(repository.BlogPosts);
+            return View(model);
+        }
+    </pre>
+
+    <p>This is the action method for creating a view of the blog posts. We can send objects defined in our data model to the view to be presented to the user but here we are actually passing it a BlogPostsViewModel object. This is a "View Model" class that exists only to be passed from a controller to a view. If we take a look at the BlogPostsViewModel class we will see that it contains everything we need to correctly display a paginated list of blog posts to the user:</p>
+
+    <pre class="prettyprint">
+    public class BlogPostsViewModel
+    {
+        public IEnumerable&lt;BlogPost&gt; BlogPosts { get; set; }
+        public PagingInfo PagingInfo { get; set; }
+    }
+    public class PagingInfo
+    {
+        public int TotalItems { get; set; }
+        public int ItemsPerPage { get; set; }
+        public int CurrentPage { get; set; }
+        public int TotalPages
+        {
+            get { return (int)Math.Ceiling((decimal)TotalItems / ItemsPerPage); }
+        }
+    }
+    </pre>
+
+    <p>After you get MVC slinging around all of these objects all over the place you start to understand how powerful this model, and Microsoft's implementation of it, really is. This may be more code than creating a GridView or something in WebForms, but take a look at that PagingInfo class and realize that it is completely modular and re-usable. Doing things like this gives you all kind of flexibility AND making changes becomes easier because our data model is completely seperated from what we are presenting to the user (the view).</p>
+
+    <h3>Guest Access to Admin Tool</h3>
+
+    <p>If you haven't already, click on one of the "Admin" sections up in the navbar and login with a username of "guest" and a password of "guest" as well. Also notice how if you attempt to commit any kind of change to the data model you are stopped by a modal dialog that won't let you continue. This is simply done by changing the actions of the buttons and links in the admin tool like this:</p>
+
+    <pre class="prettyprint">
+            @@if (@@HttpContext.Current.User.Identity.Name == "guest") 
+            {
+                &lt;a href="#myModal" role="button" class="btn btn-danger" data-toggle="modal"&gt;&lt;i class="icon-remove icon-white"&gt;&lt;/i&gt; Delete&lt;/a&gt;
+            }
+    </pre>
+
+    <p>But obviously just leaving it at that is not very secure. Malicious users could still submit POST actions to the delete action in the admin controller. To stop this we can use a cool feature of Asp.net MVC</p>
+
+    <pre class="prettyprint">
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Delete(int blogPostId)
+        {
+            BlogPost deletedBlogPost = repository.DeleteBlogPost(blogPostId);
+            if (deletedBlogPost != null)
+            {
+                TempData["message"] = string.Format("{0} was deleted", deletedBlogPost.Subject);
+            }
+            return RedirectToAction("Index");
+        }
+    </pre>
+
+    <p>That [Authorize] attribute will make sure that a user is authenticated and has a role of "Admin", which the guest account does not have. How do we assign roles? The way I did it was to assign a made-up "roles" value and stick it in the "userData" property of the FormsAuthenticationTicket, then create a delegate in Global.asax that is fired off when we authenticate a user. </p>
+
+    <pre class="prettyprint">
+        protected void Application_AuthenticateRequest(Object sender, EventArgs e) 
+        {
+          HttpCookie authCookie = Context.Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (authCookie != null) 
+            {
+              FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
+              string[] roles = authTicket.UserData.Split(new Char[] { ',' });
+              GenericPrincipal userPrincipal = new GenericPrincipal(new GenericIdentity(authTicket.Name), roles);
+              Context.User = userPrincipal;
+            }
+        }
+    </pre>
+
+    <p>The method above reads that "roles" value in and sticks it into the GenericPrincipal associated with the user. And there it is - we now have roles we can authenticate against!</p>
+
+</div>

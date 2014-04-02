@@ -1,0 +1,20 @@
+﻿@model SyntonicStudios.SSWebsite.Domain.Entities.Experiment
+
+@{
+    ViewBag.Title = "ViewExperiment";
+    if (Model.UseTemplate)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        <h2>@Model.DisplayName</h2>
+
+        <div>
+            @Html.Raw(Model.Body)
+        </div>
+    }
+    else
+    {
+        Layout = null;   
+        @Html.Raw(Model.Body)
+    }
+}
+

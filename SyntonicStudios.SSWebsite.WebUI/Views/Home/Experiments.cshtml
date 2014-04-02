@@ -1,0 +1,15 @@
+﻿@model SyntonicStudios.SSWebsite.WebUI.Models.ExperimentNavItemModel
+
+@{
+    ViewBag.Title = "All Experiments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>All Experiments</h2>
+
+    <ul>
+@foreach (var x in Model.Experiments)
+{
+        <li>@Html.ActionLink(@x.DisplayName, "ViewExperiment", new { id = x.UrlDisplay })</li>
+}
+    </ul>

@@ -1,0 +1,22 @@
+﻿@{
+  ViewBag.Title = "Speedster";
+}
+
+<div id="sleepwalkerSection">
+
+    <h2>Speedster</h2>
+
+    <div>
+      A game I made for Ludum Dare 27. You can download the game for Windows or Mac OS X, or even download its source code, at the <a href="http://www.ludumdare.com/compo/ludum-dare-27/?action=preview&uid=21557">Ludum Dare entry page</a>. 
+    </div>
+
+    <div>The theme for the competition was "10 Seconds". My idea going in was to make a fast-paced platformer with some special moves to make the game interesting. Your character has a bunch of moves I lifted from fighting games: you can dash, double jump and attack. I wanted to implement "wave dashing" from Tekken, but there was not enough time. This was also my first entry into the Ludum Dare Competition instead of the Jam, which meant I only had 2 days to make this game instead of 3 like I did with Sleepwalker.</div>
+  <div>My implementation of the theme was that you had to clear every stage in less than 10 seconds. This kind of made the game more about using your characters abilities to solve the puzzle of getting to the end before time runs out instead of a fast-paced action game, but I still think it worked out alirght considering this was my first action game of any kind, let alone my first platformer. </div>
+  <div>Code-wise there are some interesting things going on. All attacks, hits and deaths are accomplished with "hit boxes" and "hurt boxes", terms that might be familiar to you if you have every played fighting games. Both the hit boxes and the special moves were fun to implement. The latter because it required an understanding of the game loop speed in addition to what your average player can and cannot do with a given control scheme. I don't know if this was the right way to code it, but I made the execution of special moves a boolean that stayed true as long as their control conditions were met, and when they reached the end of the chain of commands and the bool was still 'true', I fired off the special move.</div>
+  <div>I should also add that this is my first game made using the <a href="https://www.yoyogames.com/studio">GameMaker Studio</a> software, which is often derided among "real" developers, perhaps partially because it is sometimes used to teach children how to write code. Despite this and its poor UI, I continue to be impressed by the software. It contains a ton of functionality that you would otherwise have to write by yourself, or include from a library I guess. I actually made this game only a couple of days after buying the software.</div>
+
+    <div>
+      <img src="http://www.ludumdare.com/compo/wp-content/compo2/273708/21557-shot1.png" />
+    </div>
+
+</div>

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<SyntonicStudios.SSWebsite.Domain.Entities.Experiment>
+
+@{
+    ViewBag.Title = "Syntonic Studios Experiments Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>
+    All Experiments
+</h2>
+
+<table class="table table-striped">
+ <thead>
+     <tr>
+         <th>ExperimentId</th>
+         <th>DisplayName</th>
+         <th>CreatedOn</th>
+         <th>Actions</th>
+     </tr>
+ </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.ExperimentId
+        </td>
+        <td>
+            @Html.ActionLink(item.DisplayName, "Edit", new { experimentID = item.ExperimentId })
+        </td>
+        <td>
+            @item.CreatedOn.ToString("yyyy MMMM dd")
+        </td>
+        <td>
+            @if (@HttpContext.Current.User.Identity.Name == "guest") 
+            {
+                <a href="#myModal" role="button" class="btn btn-danger" data-toggle="modal"><i class="icon-remove icon-white"></i> Delete</a>
+            }
+            else
+            {
+                using (Html.BeginForm("Delete", "ExperimentAdmin"))
+                {
+                    @Html.Hidden("experimentId", item.ExperimentId)
+                    <button type="submit" class="btn btn-danger">
+                      <i class="icon-remove icon-white"></i> Delete
+                    </button>
+                }
+            }
+        </td>
+    </tr>
+}
+    </tbody>
+</table>
+<p>
+    <a class="btn btn-primary" href="@Url.Action("Create")"><i class="icon-pencil icon-white"></i> Create a new Experiment</a>
+</p>

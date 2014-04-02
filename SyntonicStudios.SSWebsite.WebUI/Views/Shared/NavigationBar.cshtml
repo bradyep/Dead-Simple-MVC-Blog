@@ -1,0 +1,61 @@
+﻿@model int
+    
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner">
+<div class="container-fluid">
+    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    </button>
+    <a class="brand">Syntonic Studios</a>
+    <div class="nav-collapse collapse">
+        @if (!@HttpContext.Current.User.Identity.Name.IsEmpty()) 
+        { 
+        <p class="navbar-text pull-right">
+            Logged in as <a href="#" class="navbar-link">@HttpContext.Current.User.Identity.Name</a>
+            @if (@HttpContext.Current.User.IsInRole("Admin"))
+            {
+                <span> [Role: Admin]</span>
+            }
+            @if (@HttpContext.Current.User.IsInRole("Guest"))
+            {
+                <span> [Role: Guest]</span>
+            }
+        </p>
+        }
+        else
+        {
+        <p class="navbar-text pull-right">
+            @Html.ActionLink("Not logged in", "Login", "Account")
+        </p>                  
+        }
+    <ul class="nav">
+        @if (Model == 1) {<li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>} else {<li><a href="@Url.Action("Index", "Home")">Home</a></li>}
+        @* <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li> *@
+        @*<li><a href="@Url.Action("Index", "Admin")">Admin</a></li> *@
+        @if (Model == 2)
+        {
+        <li class="dropdown active">
+        <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Index", "Admin")">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Index", "ExperimentAdmin")">Experiments</a></li>
+        </ul>
+        </li>
+        }
+        else
+        {
+        <li class="dropdown">
+        <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b> <span class="label label-info">Try Me</span></a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Index", "Admin")">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Index", "ExperimentAdmin")">Experiments</a></li>
+        </ul>
+        </li>
+        }
+    </ul>
+    </div><!--/.nav-collapse -->
+</div>
+</div>
+</div>

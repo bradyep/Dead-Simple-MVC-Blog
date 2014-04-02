@@ -1,0 +1,173 @@
+﻿@{
+    string currentAction = ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString();
+    // string currentController = ViewContext.Controller.ValueProvider.GetValue("controller").RawValue.ToString();
+    int currentController = 1;
+}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Syntonic Studios Website. Homepage of Brady Prigge.">
+    <meta name="keywords" content="brady prigge, personal, homepage, web, professional, syntonic, studios" />
+    <meta name="author" content="Brady Prigge">
+
+    <!-- Le styles -->
+    <link href='http://fonts.googleapis.com/css?family=Questrial|Dancing+Script|Maven+Pro|Rock+Salt' rel='stylesheet' type='text/css'>
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet">
+    <link href="~/Content/css/syntonic.css" rel="stylesheet">
+    <link href="~/Content/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="~Content/js/html5shiv.js"></script>
+    <![endif]-->
+    <script src="~/Scripts/jquery-1.8.2.js"></script>
+    <script src="~/Scripts/bootstrap-dropdown.js"></script>
+    <script src="~/Scripts/bootstrap-collapse.js"></script>
+    <script src="~/Scripts/bootstrap-tooltip.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+
+      @if (currentAction == "Sleepwalker")
+      {
+        <script type="text/javascript" src="~/Scripts/swfobject.js"></script>
+        <script type="text/javascript">
+            // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
+            var swfVersionStr = "11.1.0";
+            // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
+            var xiSwfUrlStr = "playerProductInstall.swf";
+            var flashvars = {};
+            var params = {};
+            params.quality = "high";
+            params.bgcolor = "#000000";
+            params.allowscriptaccess = "sameDomain";
+            params.allowfullscreen = "true";
+            var attributes = {};
+            attributes.id = "sleepWalker";
+            attributes.name = "sleepWalker";
+            attributes.align = "middle";
+            swfobject.embedSWF(
+                "/Content/flash/sleepWalker.swf", "flashContent",
+                "550", "500", 
+                swfVersionStr, xiSwfUrlStr, 
+                flashvars, params, attributes);
+            // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
+            swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+        </script>
+      }
+      @if (currentAction == "Jacks2000")
+      {
+        <script type="text/javascript" src="~/Scripts/swfobject.js"></script>
+        <script type="text/javascript">
+            // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
+            var swfVersionStr = "11.1.0";
+            // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
+            var xiSwfUrlStr = "playerProductInstall.swf";
+            var flashvars = {};
+            var params = {};
+            params.quality = "high";
+            params.bgcolor = "#000000";
+            params.allowscriptaccess = "sameDomain";
+            params.allowfullscreen = "true";
+            var attributes = {};
+            attributes.id = "jacks2000main4c";
+            attributes.name = "jacks2000main4c";
+            attributes.align = "middle";
+            swfobject.embedSWF(
+                "/Content/flash/Jacks2000/jacks2000main4c.swf", "flashContent",
+                "480", "640",
+                swfVersionStr, xiSwfUrlStr,
+                flashvars, params, attributes);
+            // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
+            swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+        </script>
+      }
+
+  </head>
+
+  <body>
+
+    @* , new { curController = currentController.ToString() } *@
+    @Html.Action("NavigationBar", "Shared", new { id = currentController })
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header"><i class="icon-globe"></i> Site</li>
+              @*<li class="active"><a href="#">Home</a></li>*@
+              @if (currentAction == "Index") {<li class="active">@Html.ActionLink("Home", "Index", "Home")</li>} else {<li>@Html.ActionLink("Home", "Index", "Home")</li>}
+              @*<li><a href="#">Blog Archives</a></li>*@
+              @if (currentAction == "AboutThisWebsite") {<li class="active">@Html.ActionLink("About This Website", "AboutThisWebsite", "Home")</li>} else {<li>@Html.ActionLink("About This Website", "AboutThisWebsite", "Home")</li>}
+              <li class="divider"></li>
+              <li class="nav-header"><i class="icon-user"></i> About</li>
+              @if (currentAction == "Resume") {<li class="active">@Html.ActionLink("Resume", "Resume", "About")</li>} else {<li>@Html.ActionLink("Resume", "Resume", "About")</li>}
+              @if (currentAction == "Contact")
+              {<li class="active">@Html.ActionLink("Contact", "Contact", "About")</li>} else {<li>@Html.ActionLink("Contact", "Contact", "About")</li>}
+              <li class="divider"></li>
+              <li class="nav-header"><i class="icon-filter" id="rotate"></i> Experiments</li>
+              @*
+              <li><a href="#">Fonts</a></li>
+              <li><a href="#">Bootstrap</a></li>
+              *@
+              @Html.Action("ExperimentNavItems", "Shared")
+              @if (currentAction == "Experiments")
+              {<li class="active">@Html.ActionLink("View All", "Experiments", "Home")</li>}else{<li>@Html.ActionLink("View All", "Experiments", "Home")</li>}
+              <li class="divider"></li>
+              <li class="nav-header"><i class="icon-briefcase"></i> Projects</li>
+              @if (currentAction == "StockExplorer")
+{<li class="active">@Html.ActionLink("StockExplorer", "StockExplorer", "Project")</li>} else {<li>@Html.ActionLink("StockExplorer", "StockExplorer", "Project")</li>}
+              <li class="divider"></li>
+              <li class="nav-header"><i class="icon-picture"></i> Games</li>
+              @if (currentAction == "Speedster")
+              {<li class="active">@Html.ActionLink("Speedster", "Speedster", "Game")</li>} else {<li>@Html.ActionLink("Speedster", "Speedster", "Game")</li>}
+              @if (currentAction == "Sleepwalker")
+              {<li class="active">@Html.ActionLink("Sleepwalker", "Sleepwalker", "Game")</li>} else {<li>@Html.ActionLink("Sleepwalker", "Sleepwalker", "Game")</li>}
+              @if (currentAction == "Jacks2000") {<li class="active">@Html.ActionLink("Jacks 2000", "Jacks2000", "Game")</li>} else {<li>@Html.ActionLink("Jacks 2000", "Jacks2000", "Game")</li>}
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+
+        <div class="span9" id="indexContent">
+
+          <header class="page-header">
+              <h1>Syntonic Studios <small>Harmonious Engineering</small></h1>
+          </header>
+
+@RenderBody()
+
+        </div><!--/span-->
+
+      </div><!--/row-->
+     <!-- </div> container-fluid -->
+
+      <hr>
+
+      <footer>
+        <p>&copy; Syntonic Studios @DateTime.Now.ToString("yyyy")</p>
+        @*
+        <p>@currentAction</p>
+        <p>@ViewContext.Controller.ValueProvider.GetValue("controller").RawValue</p>
+        <p>@ViewContext.Controller.ValueProvider.GetValue("action").RawValue</p>
+        *@
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-41456018-1', 'syntonicstudios.com');
+        ga('send', 'pageview');
+
+    </script>
+
+  </body>
+</html>

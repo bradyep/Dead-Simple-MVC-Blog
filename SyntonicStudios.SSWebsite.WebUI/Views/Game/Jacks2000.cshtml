@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "Jacks2000";
+}
+<script type="text/javascript">
+    $(function () {
+        $("[rel='tooltip']").tooltip();
+    });
+</script>
+<div id="jacks2000Section">
+
+    <h2>Jacks2000</h2>
+
+    <p>Jacks 2000 is a post-apocalyptic game of jacks. The player battles through various opponents in a war-torn urban setting. Though since the game is only at Phase 1 right now, your only enemy is the timer.</p>
+
+    <div>Jacks 2000 represents my first-ever attempt at game development. You can <a href="~/Content/flash/Jacks2000/jacks2000main4c.html" rel="tooltip" data-toggle="tooltip" title="Warning: Loud Obnoxious Music Incoming">play it here</a> if you have the Adobe Flash Player installed. <small>(Note: I cannot load the .swf file onto an Asp.net MVC page because I used an Adobe class called "ProLoader" which violates an MVC policy.)</small></div>
+
+    <div>Although I'm somewhat pleased by how it turned out so far, since this is my first game it was more of a learning experience than anything. Since I was basically learning things like how to implement basic movement, physics, sound and different kinds of controls - the code ended up a little messy and this is the only project that I have not supplied full source code for. I do like the concept and gameplay enough that I am considering going ahead and porting this game to Haxe / NME though. My grand vision of this game went as far as special moves, fatalities and even multiplayer since the gameplay is turn-based.</div>
+
+    <h3>The Notorious ProLoader</h3>
+
+    <pre class="prettyprint">
+// == LOAD THE INTRO MOVIE ==
+var myProLoader:ProLoader=new ProLoader();
+var myURL:URLRequest=new URLRequest("jacks2000intro.swf");
+myProLoader.load(myURL);
+addChild(myProLoader); // Add ProLoader object to Stage so we can see it
+    </pre>
+
+    <p>Loading flash assets into a flash project is kind of a mess. The method I went with is the newest way to do it, but go ahead and google "Flash ProLoader" and you'll see it is not a very popular way to do things. This game is currently working but with two seperate .swf's (intro movie and main game), which is not ideal. I'm confident I can get this working better if I move onto Haxe/NME with this game.</p>
+
+    <h3>Trigonometry. Remember that?</h3>
+
+    <pre class="prettyprint">
+			// Now actually animate the ball going down, bouncing back up, and then going back down ... remember this is dependent on strength
+			// and accuracy. 
+			playerBall.x = playerHand.x;
+			playerBall.y = playerHand.y;
+			playerBall.visible = true;
+			
+			playerBallDirection = randomRange(360);
+			playerBallXMovement = Math.cos(degreesToRadians(playerBallDirection));
+			playerBallYMovement = Math.sin(degreesToRadians(playerBallDirection));
+    </pre>
+
+    <p>Yeah, me either. When you create business apps you are probably not going to find much of a use for trig, but in games it is king. Why? Because games are more fun when things can move in more than just four (or eight) cardinal directions. I have a detailed discussion about all of this in a @Html.ActionLink("blog post", "ViewBlog", "Home", new { id = "game-math-101-calculating-directional-movement" }, null).</p>
+
+    <h3>Animation</h3>
+
+    <pre class="prettyprint">
+				// Ball will move for a full second in a random direction
+				var playerBallXTweenBad:Tween = new Tween(playerBall, "x", None.easeIn, playerBall.x, playerBall.x + playerBallXMovement, 26, false);
+				var playerBallYTweenBad:Tween = new Tween(playerBall, "y", None.easeIn, playerBall.y, playerBall.y + playerBallYMovement, 26, false);
+				// ... while doing so it will bounce up and then down with a bounce tween
+				var playerBallUpWBad:Tween = new Tween(playerBall, "scaleX", Regular.easeOut, 1, 1.4, 13, false);
+				var playerBallUpHBad:Tween = new Tween(playerBall, "scaleY", Regular.easeOut, 1, 1.4, 13, false); 
+    </pre>
+
+    <p>Flash never lets you forget that it's an animation tool. You can move things around the stage with classic or modern tweens in the timeline, or you can move it around its registration point in a movie clip, or you can take the traditional game approach and move an item by changing its x and y coordinates every time the game loop occurs; finally you can also do what I did to animate the ball in this game - which is to use the Transitions class to apply programmatic tweens to objects, much like you would if you were using a JavaScript tween library like TweenLite.</p>
+
+    <div>And also I would just like to point out that while developing this game I did research looking for other videogames based upon the game of "Jacks" and found none. That's right, you are looking at gaming history right here.</div>
+
+    @* New and Bad
+    <!-- SWFObject's dynamic embed method replaces this alternative HTML content with Flash content when enough 
+            JavaScript and Flash plug-in support is available. The div is initially hidden so that it doesn't show
+            when JavaScript is disabled.
+    -->
+    <div id="flashContent">
+        <p>
+            To view this page ensure that Adobe Flash Player version 
+            11.1.0 or greater is installed. 
+        </p>
+        <script type="text/javascript"> 
+            var pageHost = ((document.location.protocol == "https:") ? "https://" : "http://"); 
+            document.write("<a href='http://www.adobe.com/go/getflashplayer'><img src='" 
+                            + pageHost + "www.adobe.com/images/shared/download_buttons/get_flash_player.gif' alt='Get Adobe Flash player' /></a>" ); 
+        </script> 
+    </div>
+        
+    <noscript>
+        <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="480" height="640" id="jacks2000main4c">
+            <param name="movie" value="jacks2000main4c.swf" />
+            <param name="quality" value="high" />
+            <param name="bgcolor" value="#ffffff" />
+            <param name="allowScriptAccess" value="sameDomain" />
+            <param name="allowFullScreen" value="true" />
+            <!--[if !IE]>-->
+            <object type="application/x-shockwave-flash" data="jacks2000main4c.swf" width="480" height="640">
+                <param name="quality" value="high" />
+                <param name="bgcolor" value="#ffffff" />
+                <param name="allowScriptAccess" value="sameDomain" />
+                <param name="allowFullScreen" value="true" />
+            <!--<![endif]-->
+            <!--[if gte IE 6]>-->
+                <p> 
+                    Either scripts and active content are not permitted to run or Adobe Flash Player version
+                    11.1.0 or greater is not installed.
+                </p>
+            <!--<![endif]-->
+                <a href="http://www.adobe.com/go/getflashplayer">
+                    <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash Player" />
+                </a>
+            <!--[if !IE]>-->
+            </object>
+            <!--<![endif]-->
+        </object>
+    </noscript>    
+    *@
+
+        @*
+        <!-- Old and Bad -->
+		<div id="flashContent">
+			<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="480" height="640" id="jacks2000main4c" align="middle">
+				<param name="movie" value="jacks2000main4c.swf" />
+				<param name="quality" value="high" />
+				<param name="bgcolor" value="#ffffff" />
+				<param name="play" value="true" />
+				<param name="loop" value="true" />
+				<param name="wmode" value="window" />
+				<param name="scale" value="showall" />
+				<param name="menu" value="true" />
+				<param name="devicefont" value="false" />
+				<param name="salign" value="" />
+				<param name="allowScriptAccess" value="sameDomain" />
+				<!--[if !IE]>-->
+				<object type="application/x-shockwave-flash" data="jacks2000main4c.swf" width="480" height="640">
+					<param name="movie" value="/Content/flash/Jacks2000/jacks2000main4c.swf" />
+					<param name="quality" value="high" />
+					<param name="bgcolor" value="#ffffff" />
+					<param name="play" value="true" />
+					<param name="loop" value="true" />
+					<param name="wmode" value="window" />
+					<param name="scale" value="showall" />
+					<param name="menu" value="true" />
+					<param name="devicefont" value="false" />
+					<param name="salign" value="" />
+					<param name="allowScriptAccess" value="sameDomain" />
+				<!--<![endif]-->
+					<a href="http://www.adobe.com/go/getflash">
+						<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+					</a>
+				<!--[if !IE]>-->
+				</object>
+				<!--<![endif]-->
+			</object>
+		</div>
+        <!-- End of Old and Bad -->
+        *@
+
+</div>

@@ -1,0 +1,49 @@
+﻿@model SyntonicStudios.SSWebsite.Domain.Entities.Experiment
+
+@{
+    ViewBag.Title = "Admin: Edit " + @Model.DisplayName;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Editing: @Model.DisplayName <span class="badge badge-info">ID: @Model.ExperimentId</span></h2>
+
+@using (Html.BeginForm("Edit", "ExperimentAdmin", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.ValidationSummary()
+    @Html.Hidden("experimentID", @Model.ExperimentId)
+
+    <div class="control-group">
+        <label class="control-label">DisplayName: </label><div class="controls">@Html.TextBoxFor(x => x.DisplayName, new { @class="span7" } )</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Body: </label><div class="controls">@Html.TextAreaFor(x => x.Body, new { @class="span7", rows="5" } )</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">CreatedOn: </label><div class="controls">@Html.TextBoxFor(x => x.CreatedOn, new { @class="span7", @Value = Model.CreatedOn.ToString("MM/dd/yyyy") } )</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">LastModified: </label><div class="controls">@Html.TextBoxFor(x => x.LastModified, new { @class="span7" } )</div> @* Asp.net MVC Glitch *@
+    </div>
+    <div class="control-group">
+        <label class="control-label">UrlDisplay: </label><div class="controls">@Html.TextBoxFor(x => x.UrlDisplay, new { @class="span7" } )</div>
+        <div class="controls">@Html.ValidationMessageFor(x => x.UrlDisplay)</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">UseTemplate: </label><div class="controls">@Html.CheckBoxFor(x => x.UseTemplate, new { @class="span7", rows="5" } )</div>
+    </div>
+
+    <div class="form-actions">
+        @if (@HttpContext.Current.User.Identity.Name == "guest")
+        {
+            <a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal"><i class="icon-ok icon-white"></i> Save</a>
+            <a class="btn" href="@Url.Action("Index")"><i class="icon-step-backward"></i> Cancel and return to List</a>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary">
+                <i class="icon-ok icon-white"></i> Save
+            </button>
+            <a class="btn" href="@Url.Action("Index")"><i class="icon-step-backward"></i> Cancel and return to List</a>
+        }
+    </div>
+}

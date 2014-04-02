@@ -1,0 +1,60 @@
+﻿@model IEnumerable<SyntonicStudios.SSWebsite.Domain.Entities.BlogPost>
+
+@{
+    ViewBag.Title = "Syntonic Studios Weblog Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>
+    All Blog Entries
+</h2>
+
+<hr />
+
+<table class="table table-striped">
+ <thead>
+     <tr>
+         <th>BlogPostID</th>
+         <th>Subject</th>
+         <th>DatePosted</th>
+         <th>Actions</th>
+     </tr>
+ </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.BlogPostID
+        </td>
+        <td>
+            @Html.ActionLink(item.Subject, "Edit", new { blogPostID = item.BlogPostID })
+        </td>
+        <td>
+            @item.DatePosted.ToString("yyyy MMMM dd")
+        </td>
+        <td>
+            @if (@HttpContext.Current.User.Identity.Name == "guest") 
+            {
+                <a href="#myModal" role="button" class="btn btn-danger" data-toggle="modal"><i class="icon-remove icon-white"></i> Delete</a>
+            }
+            else
+            {
+                using (Html.BeginForm("Delete", "Admin"))
+                {
+                    @Html.Hidden("blogPostID", item.BlogPostID)
+                    @*<input type="submit" value="Delete" class="btn btn-danger" />*@
+                    <button type="submit" class="btn btn-danger">
+                      <i class="icon-remove icon-white"></i> Delete
+                    </button>
+                }
+            }
+        </td>
+    </tr>
+}
+    </tbody>
+</table>
+@*<p>@Html.ActionLink("Make a new Blog Post", "Create", null, new { @class="btn btn-primary" })</p>*@
+<p>
+    <a class="btn btn-primary" href="@Url.Action("Create")"><i class="icon-pencil icon-white"></i> Make a new Blog Post</a>
+</p>
+

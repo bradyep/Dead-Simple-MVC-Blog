@@ -1,0 +1,175 @@
+﻿@{
+    ViewBag.Title = "Sleepwalker";
+}
+
+<div id="sleepwalkerSection">
+
+    <h2>Sleepwalker</h2>
+
+    <div>This is a game I made for Ludum Dare 26. Ludum Dare is an Online Game Jam event where people from around the world create a game from scratch in a weekend. You can play it (assuming you have Flash installed) below:</div>
+
+    <p>Sleepwalker is a puzzle game with an adventure game interface. The goal is to simply not die when your character falls asleep. This is done by manipulating the environment when your character IS awake.</p>
+
+    <!-- SWFObject's dynamic embed method replaces this alternative HTML content with Flash content when enough 
+            JavaScript and Flash plug-in support is available. The div is initially hidden so that it doesn't show
+            when JavaScript is disabled.
+    -->
+    <div id="flashContent">
+        <p>
+            To view this page ensure that Adobe Flash Player version 
+            11.1.0 or greater is installed. 
+        </p>
+        <script type="text/javascript"> 
+            var pageHost = ((document.location.protocol == "https:") ? "https://" : "http://"); 
+            document.write("<a href='http://www.adobe.com/go/getflashplayer'><img src='" 
+                            + pageHost + "www.adobe.com/images/shared/download_buttons/get_flash_player.gif' alt='Get Adobe Flash player' /></a>" ); 
+        </script> 
+    </div>
+        
+    <noscript>
+        <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="550" height="500" id="sleepWalker">
+            <param name="movie" value="sleepWalker.swf" />
+            <param name="quality" value="high" />
+            <param name="bgcolor" value="#000000" />
+            <param name="allowScriptAccess" value="sameDomain" />
+            <param name="allowFullScreen" value="true" />
+            <!--[if !IE]>-->
+            <object type="application/x-shockwave-flash" data="sleepWalker.swf" width="550" height="500">
+                <param name="quality" value="high" />
+                <param name="bgcolor" value="#000000" />
+                <param name="allowScriptAccess" value="sameDomain" />
+                <param name="allowFullScreen" value="true" />
+            <!--<![endif]-->
+            <!--[if gte IE 6]>-->
+                <p> 
+                    Either scripts and active content are not permitted to run or Adobe Flash Player version
+                    11.1.0 or greater is not installed.
+                </p>
+            <!--<![endif]-->
+                <a href="http://www.adobe.com/go/getflashplayer">
+                    <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash Player" />
+                </a>
+            <!--[if !IE]>-->
+            </object>
+            <!--<![endif]-->
+        </object>
+    </noscript>    
+
+    <div>
+        It took me somehwere in between 30 and 40 hours to get to this point - most of it being spent on object interaction. I'm pretty happy with the architecture I came up with and use of objects - you can check out the source code for this project here:
+    </div>
+
+    <div>
+        <a href="/Content/source/sleepwalker/sleepWalkerSourceFiles.zip" class="btn btn-large btn-primary">Download Sleepwalker Source</a>
+    </div>
+
+    <p>
+        This was actually my first time using FlashBuilder. I had used Flash Professional many times in the past working on animation and web apps for professional work in the past - I also used it to make Jacks 2000. With FlashBuilder I took a more class-based approach, there is no timeline to speak of, in its place is the standard model for building games:
+    </p>
+
+    <h3>Game initialization</h3>        
+
+    <pre class="prettyprint">
+		public function sleepWalker()
+		{
+			trace("Game has started up!!");
+			_instructions = new Instructions(stage);
+			_bathroomLevel = new BathroomLevel(stage);
+			// _kitchenLevel = new KitchenLevel(stage);
+			//stage.addChild(_bathroomLevel);
+			stage.addChild(_instructions);
+			stage.addEventListener("startLevelOne", startLevelHandler);
+			
+			stage.addEventListener("restartLevelOne", resetLevelHandler);
+		}
+
+		private function startLevelHandler(event:Event):void	
+		{
+			trace("Application class: Start stage!");
+			stage.removeChild(_instructions);
+			_instructions = null;
+			
+			_bathroomLevel = new BathroomLevel(stage);
+			stage.addChild(_bathroomLevel);
+			
+			if(_instructions == null)
+			{
+			trace("Instructions is null");
+			}
+			
+		}
+    </pre>
+
+    <p>
+        Each game level is loaded in my the main class which acts as sort of a state manager. The code you see above is the constructor for the main class as well as an event handler for the "startLevelOne" event. What fires off this event? Take a look at this code from the instructions screen class:
+    </p>
+
+    <pre class="prettyprint">
+		private function instKeyDownHandler(event:KeyboardEvent):void
+		{
+			trace(event.keyCode);
+			dispatchEvent(new Event("startLevelOne", true));
+			_stage.removeEventListener(KeyboardEvent.KEY_DOWN, instKeyDownHandler);
+		}
+    </pre>
+
+    <p>
+        It listens for the press of any key and manually dispatches the "startLevelOne" event with the "dispatchEvent" method. Why is this cool? Becuase the dispatchEvent method is heard throughout all of the application! This makes it perfect for interactions that take place outside of the gameplay class, such as loading levels like we are doing here.
+    </p>
+
+    <h3>The game loop (or "heartbeat")</h3> 
+    
+    <pre class="prettyprint">
+		private function enterFrameHandler(event:Event):void
+		{	
+			// Move the game character and check its stage boundaries
+			_character.x += _character.vx; 
+			_character.y += _character.vy;
+			
+			if (_character.vx != 0  || _character.vy != 0)
+			{
+				charHasRecentlyMoved = true;
+			}
+			else 
+			{
+				charHasRecentlyMoved = false;
+			}
+            ...
+    </pre>
+
+    <p>The heartbeat of the game (and most Flash games) is the enterFrameHandler, which fires off every time the game goes to the next frame (my game runs at 60 frames per second). This is where you typically move objects around, count down timers, check for collisions or do anything else that needs to be constantly checked.</p>
+    
+    <h3>Event handlers</h3>
+
+    <pre class="prettyprint">
+		private function keyDownHandler(event:KeyboardEvent):void
+		{
+			if (event.keyCode == Keyboard.LEFT)
+			{
+				_character.vx = -walkspeed;
+			}
+			else if (event.keyCode == Keyboard.RIGHT)
+			{
+				_character.vx = walkspeed;
+			}
+			else if (event.keyCode == Keyboard.UP)
+			{
+				_character.vy = -walkspeed;
+			}
+			else if (event.keyCode == Keyboard.DOWN)
+			{
+				_character.vy = walkspeed;
+			}
+    </pre>
+
+    <p>This is just one of the many event handlers used by this game. If you look at this alongside the code above it you can see how I handle keyboard control and turn it into directional movement. That is, keyboard actions have an affect on velocity, and velocity is translated into movement during the running of the game loop.</p>
+
+    <p>
+    Despite being pretty on the inside, I fully admit this game would be much more enjoyable with some atmospheric sound and music - and it would probably be more interesting and easy to relate to if your character wasn't a simple red square. This is the price of making a game on such a limited time schedule however. I still like the concept and may dive into it further, this time with Haxe and NME. 
+    </p>
+
+    <div>
+        <strong>Note:</strong> I kept a journal during the creation of this game and also wrote up a post-mortem for it. You can view these on <a href="http://www.ludumdare.com/compo/author/disease/">my Ludum Dare journal</a>.
+    </div>
+
+</div>

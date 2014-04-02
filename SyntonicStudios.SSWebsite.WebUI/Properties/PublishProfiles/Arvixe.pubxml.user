@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA7udzm4wb70CiDb6bTi1fpAAAAAACAAAAAAAQZgAAAAEAACAAAABt0DZ5ag5BanGIyZ3LTV8XQiLGZjczNmEZV3pmpYtoKgAAAAAOgAAAAAIAACAAAACiOHqhkT5FsQSzsm+fnbToNt7vLN95LGYKZGPjjnIqgCAAAABQYrBpDU1chmZL/ATdxxG71FyyEtnhwqS9uG6lg0JBZ0AAAADZR5cjQda3T1OqJlCrfKBVK/2dddMu8fVms8RnIbFqWRmBOZzi1shAyVpUMCXjUkc4rhWPYsyw61uMFbapMAUA</EncryptedPassword>
+    <_PublishTargetUrl>ftp://ftp.syntonicstudios.com/syntonicstudios.com/wwwroot</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>05/15/2013 20:31:36</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>05/15/2013 13:37:26</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Mvc.FixedDisplayModes.dll">
+      <publishTime>05/15/2013 13:37:27</publishTime>
+    </File>
+    <File Include="bin/Moq.dll">
+      <publishTime>05/15/2013 14:57:03</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>05/15/2013 13:37:25</publishTime>
+    </File>
+    <File Include="bin/Ninject.dll">
+      <publishTime>05/15/2013 14:56:46</publishTime>
+    </File>
+    <File Include="bin/SyntonicStudios.SSWebsite.Domain.dll">
+      <publishTime>04/01/2014 20:10:19</publishTime>
+    </File>
+    <File Include="bin/SyntonicStudios.SSWebsite.WebUI.dll">
+      <publishTime>04/01/2014 20:23:08</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>05/15/2013 13:37:27</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>05/15/2013 13:37:26</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>05/15/2013 13:37:27</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.dll">
+      <publishTime>05/15/2013 13:37:27</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>05/15/2013 13:37:27</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>05/15/2013 13:37:26</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>05/15/2013 13:37:26</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>05/15/2013 13:37:26</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>05/15/2013 13:37:26</publishTime>
+    </File>
+    <File Include="ConfigurationFiles/Arvixe/web.config">
+      <publishTime>04/01/2014 20:16:03</publishTime>
+    </File>
+    <File Include="ConfigurationFiles/ArvixeView/Web.config">
+      <publishTime>04/01/2014 20:16:51</publishTime>
+    </File>
+    <File Include="Content/css/bootstrap-responsive.css">
+      <publishTime>05/15/2013 13:39:44</publishTime>
+    </File>
+    <File Include="Content/css/bootstrap-responsive.min.css">
+      <publishTime>05/15/2013 13:39:44</publishTime>
+    </File>
+    <File Include="Content/css/bootstrap.css">
+      <publishTime>05/15/2013 13:39:44</publishTime>
+    </File>
+    <File Include="Content/css/bootstrap.min.css">
+      <publishTime>05/15/2013 13:39:44</publishTime>
+    </File>
+    <File Include="Content/css/syntonic.css">
+      <publishTime>09/28/2013 15:03:42</publishTime>
+    </File>
+    <File Include="Content/img/glyphicons-halflings-white.png">
+      <publishTime>05/15/2013 13:39:57</publishTime>
+    </File>
+    <File Include="Content/img/glyphicons-halflings.png">
+      <publishTime>05/15/2013 13:39:57</publishTime>
+    </File>
+    <File Include="Content/img/syntonicStudiosFullNameQuickLogo2.png">
+      <publishTime>05/17/2013 11:11:55</publishTime>
+    </File>
+    <File Include="Content/js/bootstrap-button.js">
+      <publishTime>05/16/2013 22:09:51</publishTime>
+    </File>
+    <File Include="Content/js/bootstrap-carousel.js">
+      <publishTime>05/16/2013 22:09:51</publishTime>
+    </File>
+    <File Include="Content/js/bootstrap-collapse.js">
+      <publishTime>05/16/2013 22:09:51</publishTime>
+    </File>
+    <File Include="Content/js/bootstrap-dropdown.js">
+      <publishTime>05/16/2013 22:09:51</publishTime>
+    </File>
+    <File Include="Content/js/bootstrap-popover.js">
+      <publishTime>05/16/2013 22:09:51</publishTime>
+    </File>
+    <File Include="Content/js/bootstrap-scrollspy.js">
+      <publishTime>05/16/2013 22:09:51</publishTime>
+    </File>
+    <File Include="Content/js/bootstrap-tab.js">
+      <publishTime>05/16/2013 22:09:51</publishTime>
+    </File>
+    <File Include="Content/js/bootstrap-tooltip.js">
+      <publishTime>05/16/2013 22:09:51</publishTime>
+    </File>
+    <File Include="Content/js/bootstrap-transition.js">
+      <publishTime>05/16/2013 22:09:51</publishTime>
+    </File>
+    <File Include="Content/js/bootstrap-typeahead.js">
+      <publishTime>05/16/2013 22:09:51</publishTime>
+    </File>
+    <File Include="Content/js/bootstrap.js">
+      <publishTime>05/15/2013 13:40:10</publishTime>
+    </File>
+    <File Include="Content/js/bootstrap.min.js">
+      <publishTime>05/15/2013 13:40:10</publishTime>
+    </File>
+    <File Include="Content/js/html5shiv.js">
+      <publishTime>05/15/2013 13:40:10</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>05/15/2013 18:25:32</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>04/01/2014 19:24:44</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap-collapse.js">
+      <publishTime>05/27/2013 20:31:18</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap-dropdown.js">
+      <publishTime>05/27/2013 12:44:04</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap-modal.js">
+      <publishTime>05/26/2013 13:48:04</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap-tooltip.js">
+      <publishTime>06/03/2013 20:27:43</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.8.2.js">
+      <publishTime>05/24/2013 16:39:31</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.8.2.min.js">
+      <publishTime>05/24/2013 16:39:31</publishTime>
+    </File>
+    <File Include="Scripts/jquery-ui-1.8.24.js">
+      <publishTime>05/24/2013 16:39:31</publishTime>
+    </File>
+    <File Include="Scripts/jquery-ui-1.8.24.min.js">
+      <publishTime>05/24/2013 16:39:31</publishTime>
+    </File>
+    <File Include="Scripts/jquery.unobtrusive-ajax.js">
+      <publishTime>05/24/2013 16:39:31</publishTime>
+    </File>
+    <File Include="Scripts/jquery.unobtrusive-ajax.min.js">
+      <publishTime>05/24/2013 16:39:31</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.js">
+      <publishTime>05/24/2013 16:39:31</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.min.js">
+      <publishTime>05/24/2013 16:39:31</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.js">
+      <publishTime>05/24/2013 16:39:31</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.min.js">
+      <publishTime>05/24/2013 16:39:31</publishTime>
+    </File>
+    <File Include="Scripts/knockout-2.2.0.debug.js">
+      <publishTime>05/24/2013 16:39:31</publishTime>
+    </File>
+    <File Include="Scripts/knockout-2.2.0.js">
+      <publishTime>05/24/2013 16:39:31</publishTime>
+    </File>
+    <File Include="Scripts/modernizr-2.6.2.js">
+      <publishTime>05/24/2013 16:39:31</publishTime>
+    </File>
+    <File Include="Scripts/swfobject.js">
+      <publishTime>05/31/2013 16:10:05</publishTime>
+    </File>
+    <File Include="Scripts/_references.js">
+      <publishTime>05/24/2013 16:39:31</publishTime>
+    </File>
+    <File Include="Views/About/Contact.cshtml">
+      <publishTime>05/31/2013 15:23:54</publishTime>
+    </File>
+    <File Include="Views/About/Resume.cshtml">
+      <publishTime>05/31/2013 10:29:25</publishTime>
+    </File>
+    <File Include="Views/Account/Login.cshtml">
+      <publishTime>06/03/2013 10:46:00</publishTime>
+    </File>
+    <File Include="Views/Admin/Edit.cshtml">
+      <publishTime>05/27/2013 00:03:44</publishTime>
+    </File>
+    <File Include="Views/Admin/Index.cshtml">
+      <publishTime>05/27/2013 00:01:21</publishTime>
+    </File>
+    <File Include="Views/ExperimentAdmin/Edit.cshtml">
+      <publishTime>05/27/2013 18:44:23</publishTime>
+    </File>
+    <File Include="Views/ExperimentAdmin/Index.cshtml">
+      <publishTime>05/27/2013 18:13:24</publishTime>
+    </File>
+    <File Include="Views/Game/Jacks2000.cshtml">
+      <publishTime>06/03/2013 20:41:04</publishTime>
+    </File>
+    <File Include="Views/Game/Sleepwalker.cshtml">
+      <publishTime>06/03/2013 16:29:21</publishTime>
+    </File>
+    <File Include="Views/Game/Speedster.cshtml">
+      <publishTime>04/01/2014 20:09:28</publishTime>
+    </File>
+    <File Include="Views/Home/AboutThisWebsite.cshtml">
+      <publishTime>06/03/2013 21:21:22</publishTime>
+    </File>
+    <File Include="Views/Home/Experiments.cshtml">
+      <publishTime>05/29/2013 11:38:46</publishTime>
+    </File>
+    <File Include="Views/Home/Index.cshtml">
+      <publishTime>06/03/2013 09:46:15</publishTime>
+    </File>
+    <File Include="Views/Home/ViewBlog.cshtml">
+      <publishTime>09/28/2013 15:05:38</publishTime>
+    </File>
+    <File Include="Views/Home/ViewExperiment.cshtml">
+      <publishTime>10/26/2013 14:53:01</publishTime>
+    </File>
+    <File Include="Views/Project/StockExplorer.cshtml">
+      <publishTime>06/03/2013 13:17:32</publishTime>
+    </File>
+    <File Include="Views/Shared/ExperimentNavItems.cshtml">
+      <publishTime>05/29/2013 11:24:12</publishTime>
+    </File>
+    <File Include="Views/Shared/NavigationBar.cshtml">
+      <publishTime>06/03/2013 10:51:14</publishTime>
+    </File>
+    <File Include="Views/Shared/_AdminLayout.cshtml">
+      <publishTime>09/28/2013 15:06:43</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.cshtml">
+      <publishTime>04/01/2014 19:40:41</publishTime>
+    </File>
+    <File Include="Views/_ViewStart.cshtml">
+      <publishTime>05/17/2013 16:47:46</publishTime>
+    </File>
+    <File Include="Web.Debug.config">
+      <publishTime>05/15/2013 13:37:24</publishTime>
+    </File>
+    <File Include="Web.Release.config">
+      <publishTime>05/15/2013 13:37:24</publishTime>
+    </File>
+  </ItemGroup>
+</Project>
