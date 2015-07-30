@@ -20,6 +20,12 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -177,6 +183,8 @@
     <None Include="Properties\PublishProfiles\Arvixe.pubxml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\PublishProfiles\syntonicstudios - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\syntonicstudios - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\bootstrap-collapse.js" />
     <Content Include="Scripts\bootstrap-dropdown.js" />
