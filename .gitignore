@@ -1,6 +1,9 @@
 bin/
+obj/
+.vs/
+Backup/
 *.dll
 *.pdb
-obj/
+*.pubxml
 SyntonicStudios.SSWebsite.WebUI/ConfigurationFiles/Arvixe/
 SyntonicStudios.SSWebsite.WebUI/Web.config
